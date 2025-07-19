@@ -1,0 +1,38 @@
+
+> nano /etc/hosts (edit host)
+	pve.local pve  -> pve02.local pve02
+
+> nano /etc/hostname (edit hostname)
+	pve -> pve02
+
+> nano /etc/postfix/main.cf
+	myhostname=pve.local -> myhostname=pve02.local
+
+> hostnamectl set-hostname pve02(node baru)
+
+> systemctl restart pveproxy
+
+> systemctl restart pvedaemon
+
+> ls /etc/pve/nodes/pve (node lama)
+
+> cp -R /etc/pve/nodes/pve/ /root/oldconfig
+
+> mv /etc/pve/nodes/pve/lxc/* /etc/pve/nodes/pve02/lxc
+> mv /etc/pve/nodes/pve/qemu-server/* /etc/pve02/nodes/pve/qemu-server
+
+> rm -r /etc/pve/nodes/pve (lama)
+
+>reboot
+
+
+update https certificate configurasi(jika mengganti domain)
+> pvecm updatecerts -f
+
+jika ada container/vms
+> nano /etc/pve/storage.cfg
+	cari di bagian dir: storage
+
+
+
+
