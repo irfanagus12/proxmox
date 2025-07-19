@@ -1,3 +1,4 @@
+> nano /etc/resolv.conf (ganti domain)
 
 > nano /etc/hosts (edit host)
 	pve.local pve  -> pve02.local pve02
