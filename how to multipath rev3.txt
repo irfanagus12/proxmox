@@ -57,6 +57,10 @@ multipath -ll
 pvcreate /dev/mapper/mpathd		(jika tidak ada mpathX : pvcreate /dev/mapper/360014054c04e4a0d6b5fd4f4eda60ddc)
 vgcreate iscsi_lun /dev/mapper/mpathd	(jika tidak ada mpathX : vgcreate iscsi_lun /dev/mapper/360014054c04e4a0d6b5fd4f4eda60ddc)
 
+iscsiadm --m node --rescan
+iscsiadm --m iface
+qm rescan
+
 lsblk
 dmsetup table 
 dmsetup remove (nama entitas, untuk hapus mapping yang stuck di lsblk) 
