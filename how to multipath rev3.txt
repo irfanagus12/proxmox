@@ -2,6 +2,10 @@
 nano /etc/iscsi/initiatorname.iscsi  (ubah nama server node)
 
 nano /etc/iscsi/iscsid.conf   (atur CHAP dan lainnya)
+	node.startup = automatic
+	node.session.auth.authmethod = CHAP
+	node.session.auth.username = ...
+	node.session.auth.password = ....
 
 
 cd /etc/iscsi/nodes/<TARGET>/<PORTAL>/   (kalo ada kendala login eror salah jalur IP, hapus IP yang salah)
