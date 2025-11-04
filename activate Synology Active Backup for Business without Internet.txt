@@ -1,0 +1,31 @@
+1. Open the suite and go to the activation page/popup
+2. Open the browser’s developer tools (F12) -> Console, paste the following code, and press Enter to apply
+
+const oldWindowOpen = window.open
+window.open = (...args) => {
+    const [url] = args
+    if (url?.startsWith('https://activation.synology.com/package')) {
+        const u = new URL(url)
+        setTimeout(() => {
+            window.dispatchEvent(new MessageEvent('message', {
+                data: {
+                    source: u.searchParams.get('package_name'),
+                    package_name: u.searchParams.get('package_name'),
+                    request_id: u.searchParams.get('request_id')
+                },
+                origin: "https://activation.synology.com"
+            }))
+        }, 100)
+        setTimeout(() => {
+            alert('Activation finished, please refresh the page.')
+            window.open = oldWindowOpen
+        }, 1000)
+    } else {
+        alert('Activation failed.')
+    }
+}
+
+3. Click the activation button to complete the activation.
+
+
+link original= https://dev.moe/en/3126
