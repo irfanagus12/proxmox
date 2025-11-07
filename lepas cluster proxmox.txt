@@ -1,0 +1,48 @@
+Contoh : -pve (node master)
+	       -pve2
+
+Jalankan di node pve:
+1. cek node:
+	  pvecm nodes
+2. hapus node dari cluster:
+	  pvecm delnode pve2
+
+Jika pve2 mau dipakai lagi atau tidak diinstall ulang lagi. 
+Jalankan di pve2:
+1. stop corosync dan pve-cluster services :
+	  systemctl stop pve-cluster corosync
+2. simpan config dengan corosync secara local:
+	  pmxcfs -l
+3. hapus file corosync:
+	  rm /etc/pve/corosync.conf
+	  rm -r /etc/corosync/*
+4. mejalankan system normal:	
+	  killall pmxcfs
+	  systemctl start pve-cluster
+5. hapus node :
+	  rm -rf /etc/pve/nodes/pve
+
+Kembali ke node pve:
+1. Stop semua service cluster
+	  systemctl stop pve-cluster corosync
+2. Unmount /etc/pve:
+	  umount -lf /etc/pve
+  Abaikan kalau “not mounted”.
+3. Jalankan pmxcfs secara lokal
+	  pmxcfs -l
+  Terminal akan diam — biarkan terbuka (ini proses yang membuat /etc/pve jadi writable).
+4. lalu cek
+	  ls /etc/pve
+5. Kalau muncul file dan bisa kamu ubah, lanjut edit:
+	  nano /etc/pve/corosync.conf 
+        hapus :
+         node {
+                name: pve2
+                nodeid: 2
+                ring0_addr: 192.168.1.11
+            }
+6. mejalankan system normal:	
+	  killall pmxcfs
+	  systemctl start pve-cluster
+7. hapus node :
+	  rm -rf /etc/pve/nodes/pve2
